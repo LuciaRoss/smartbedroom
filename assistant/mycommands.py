@@ -8,6 +8,7 @@ from time import time
 import json
 import sqlite3
 
+DB = 'housecode.db'
 radiator = SmartPlug("192.168.86.17")
 
 bedroom = group.Group("bed")
@@ -139,7 +140,7 @@ def vacationModeUntil(extra):
     vacation.mode = True
     vacation.day = dt
     vacation.hdate = dt + relativedelta(days=-1)
-    executeQuery("housecode.db", "INSERT INTO vacationmode VALUES (?, ?, ?, ?)", vacation.sqlFormat())
+    executeQuery(DB, "INSERT INTO vacationmode VALUES (?, ?, ?, ?)", vacation.sqlFormat())
 
 commandList.append(Command(vacationModeUntil, ["set vacation mode until"]))
 
@@ -159,14 +160,14 @@ def vacationModeFor(extra):
     vacation.mode = True
     vacation.day = dt
     vacation.hdate = dt + relativedelta(days=-1)
-    executeQuery("housecode.db", "INSERT INTO vacationmode VALUES (?, ?, ?, ?)", vacation.sqlFormat())
+    executeQuery(DB, "INSERT INTO vacationmode VALUES (?, ?, ?, ?)", vacation.sqlFormat())
 commandList.append(Command(vacationModeFor, ["set vacation mode for"]))
 
 def exitVacationMode(extra):
     vacation.mode = False
     vacation.day = None
     vacation.hdate = None
-    executeQuery("housecode.db", "INSERT INTO vacationmode VALUES (?, ?, ?, ?)", vacation.sqlFormat())
+    executeQuery(DB, "INSERT INTO vacationmode VALUES (?, ?, ?, ?)", vacation.sqlFormat())
 commandList.append(Command(exitVacationMode, ["exit vacation mode"]))
 
 def executeQuery(database, query, args):
