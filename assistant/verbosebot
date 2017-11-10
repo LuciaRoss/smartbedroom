@@ -1,3 +1,0 @@
-pkill -f bot.py
-cd /home/pi/smartbedroom/assistant
-python slackbot.py
