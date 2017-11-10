@@ -5,7 +5,7 @@ import sqlite3
 
 conn = None
 try:
-    conn = sqlite3.connect('/home/pi/assistant/housecode.db')
+    conn = sqlite3.connect('../assistant/housecode.db')
     cur = conn.cursor()
     cur.execute('''CREATE TABLE IF NOT EXISTS heatpercentage (date text, perc real)''')
     cur.execute('select max(date) from heatpercentage')
@@ -53,11 +53,6 @@ try:
         cur.executemany('''INSERT INTO heatpercentage ('date', 'perc') VALUES (?, ?)''', rows)
         conn.commit()
     conn.close()
-    print('SUCCESS')
-
-except NameError as e:
-    print(e)
-    pass
 except:
     print(sys.exc_info()[0])
     print('ERROR')

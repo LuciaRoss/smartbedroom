@@ -8,8 +8,8 @@ from datetime import datetime
 import json
 import sqlite3
 
-dir1 = '/home/pi/assistant/hue'
-dir2='/home/pi/assistant'
+dir1 = '../assistant/hue'
+dir2='../assistant'
 sys.path.append(dir1)
 sys.path.append(dir2)
 
@@ -55,7 +55,7 @@ else:
 temp = temper.TemperHandler().get_devices()[0].get_temperature()
 
 try:
-    conn = sqlite3.connect('/home/pi/assistant/housecode.db')
+    conn = sqlite3.connect('../assistant/housecode.db')
     cur = conn.cursor()
     for row in cur.execute("SELECT mode, hdate FROM vacationmode ORDER BY id DESC LIMIT 1"):
         mode = True if row[0] == 'True' else False

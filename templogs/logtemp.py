@@ -21,7 +21,7 @@ temp = temper.TemperHandler().get_devices()[0].get_temperature()
 
 conn = None
 try:
-    conn = sqlite3.connect('/home/pi/assistant/housecode.db')
+    conn = sqlite3.connect('../assistant/housecode.db')
     cur = conn.cursor()
     cur.execute('''CREATE TABLE IF NOT EXISTS log (id int, date text, temp real, status text)''')
     t = time()
@@ -31,11 +31,6 @@ try:
 except:
     print sys.exc_info()[0]
     pass
-
-with open("/home/pi/templogs/log", "a") as myfile:
-    sol = "{0} ? {1} ? {2}\n".format(str(int(time())),str(temp),on_data)
-    print sol
-    myfile.write(sol)
 
 
 

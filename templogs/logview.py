@@ -18,7 +18,7 @@ class TempData:
         self.times = []
         conn = None
         try:
-            conn = sqlite3.connect('/home/pi/assistant/housecode.db')
+            conn = sqlite3.connect('..assistant/housecode.db')
             cur = conn.cursor()
             for x in cur.execute('select * from log'):
                 if len(x) < 4:
