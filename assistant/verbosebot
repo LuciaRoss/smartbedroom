@@ -1,0 +1,3 @@
+pkill -f bot.py
+cd /home/pi/assistant
+python bot.py
