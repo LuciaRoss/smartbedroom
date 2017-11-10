@@ -4,8 +4,6 @@ from slackclient import SlackClient
 from temperusb import temper
 from pyHS100 import smartplug
 import sys
-dir1 = '/home/pi/assistant/hue'
-sys.path.append(dir1)
 from mycommands import commandDict, radiator, bedroom, stairs
 
 #Import API Keys
@@ -19,7 +17,6 @@ slack_client = SlackClient(credentials['bot_token'])
 triggers = commandDict.keys()
 
 def parse_slack_output(slack_output):
-
     output_list = slack_output
     if output_list and len(output_list) > 0:
         for output in output_list:
