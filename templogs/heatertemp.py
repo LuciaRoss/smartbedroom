@@ -20,14 +20,13 @@ import group
 mode = False
 hdate = None
 
-
 class Temp:
     def __init__(self, l, u):
         self.upper = u
         self.lower = l
 
 def isday(hour):
-    return hour >= 7 and hour < 20
+    return hour >= 7 and hour < 22
 
 def isevening(hour):
     return hour >= 22 and hour < 23
@@ -37,6 +36,8 @@ def isnight(hour):
 
 def lightson():
     return bedroom.ison()
+def ison():
+    return on_data == "ON"
 
 bedroom = group.Group("bed")
 stairs = group.Group("stairs")
@@ -76,14 +77,16 @@ normal = Temp(20, 21)
 night = Temp(18.0, 19)
 
 state = "NOTSET"
-if mode:
+if on_data == 'ERROR':
+    state = 'error'
+elif mode:
     if current == hdate.date() and temp < vacation.lower and radiator.is_off:
         radiator.turn_on()
         state = "TURNED ON -> last day of vacation"
     elif current == hdate.date() and temp > vacation.upper and radiator.is_on:
         radiator.turn_off()
         state = "TURNED OFF -> last day of vacation"
-elif temp > normal.upper and radiator.is_on:
+elif temp >= normal.upper and radiator.is_on:
     radiator.turn_off()
     state = "TURNED OFF"
 elif isday(hour) and lightson() and temp < normal.lower and radiator.is_off:
@@ -92,24 +95,24 @@ elif isday(hour) and lightson() and temp < normal.lower and radiator.is_off:
 elif isday(hour) and not lightson() and temp < night.upper and radiator.is_off:
     radiator.turn_on()
     state = "TURNED ON -> DAY lights off"
-elif isday(hour) and not lightson() and temp > normal.lower and radiator.is_on:
+elif isday(hour) and not lightson() and temp >= normal.lower and radiator.is_on:
     radiator.turn_off()
     state = "TURNED OFF -> DAY lights off"
 elif isnight(hour) and not lightson() and temp < night.lower and radiator.is_off:
     radiator.turn_on()
     state = "TURNED ON -> NIGHT lights off"
-elif isnight(hour) and not lightson() and temp > night.upper and radiator.is_on:
+elif isnight(hour) and not lightson() and temp >= night.upper and radiator.is_on:
     radiator.turn_off()
     state = "TURNED OFF -> NIGHT lights off"
 elif isnight(hour) and lightson() and temp < night.upper and radiator.is_off:
     radiator.turn_on()
     state = "TURNED ON -> NIGHT lights on"
-elif isnight(hour) and lightson() and temp > normal.lower and radiator.is_on:
+elif isnight(hour) and lightson() and temp >= normal.lower and radiator.is_on:
     radiator.turn_off()
     state = "TURNED OFF -> NIGHT lights on"
 
 if state != "NOT SET":
-    cur.execute('''INSERT INTO heaterstatus VALUES (?, ?, ?, ?, ?, ?)''', (int(time()), datetime.now().strftime("%Y-%m-%d %H:%M:%S"), temp, str(radiator.state), str(lightson()), state))
+    cur.execute('''INSERT INTO heaterstatus VALUES (?, ?, ?, ?, ?, ?)''', (int(time()), datetime.now().strftime("%Y-%m-%d %H:%M:%S"), temp, str(on_data), str(lightson()), state))
 
 conn.commit()
 conn.close()

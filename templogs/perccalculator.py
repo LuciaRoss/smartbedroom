@@ -13,7 +13,7 @@ try:
     if startdate == None:
         startdate = '1970-01-01'
     enddate = datetime.fromtimestamp(time()).strftime("%Y-%m-%d")
-    print("from {0} to {1}".format(startdate, enddate))
+    #print("from {0} to {1}".format(startdate, enddate))
     dic = {}
     date_prec = ""
     sec_prec = 0
@@ -48,7 +48,7 @@ try:
         perc = float("{0:.2f}".format(dic[date_prec]/86400.0*100))
         rows.append((date_prec, perc))
 
-    print(len(rows))
+    #print(len(rows))
     if len(rows) > 0:
         cur.executemany('''INSERT INTO heatpercentage ('date', 'perc') VALUES (?, ?)''', rows)
         conn.commit()

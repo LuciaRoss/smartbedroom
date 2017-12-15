@@ -7,12 +7,14 @@ from dateutil import parser
 from time import time
 import json
 import sqlite3
+import irSensor
 
 DB = 'housecode.db'
 radiator = SmartPlug("192.168.86.17")
 
 bedroom = group.Group("bed")
 stairs = group.Group("stairs")
+#toy = irSensor.IRtoy()
 
 weekdays = {'monday':0, 'tuesday': 1, 'wednesday': 2, 'thursday': 3, 'friday': 4, 'saturday': 5, 'sunday': 6}
 months = ['january', 'february', 'marcj', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december']
@@ -35,7 +37,6 @@ class Vacation:
         return (i, m, d, h)
 
 vacation = Vacation(None, False, None)
-
 commandList = []
 sceneCommandDict = {}
 
@@ -60,6 +61,20 @@ commandList.append(Command(heaton,["turn the heat"]))
 def lumosMaxima(extra):
     bedroom.maxima()
 commandList.append(Command(lumosMaxima,["lumos maxima"]))
+
+def goodnight(extra):
+    bedroom.off()
+    stairs.off()
+    toy.off()
+commandList.append(Command(goodnight, ["good night"]))
+
+def stringon(extra):
+    toy.on()
+commandList.append(Command(stringon, ["string on"]))
+
+def stringoff(extra):
+    toy.off()
+commandList.append(Command(stringoff, ["string off"]))
 
 def lightsout(extra):
     bedroom.off()
