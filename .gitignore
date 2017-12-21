@@ -8,3 +8,4 @@ assistant/nohup.out
 *.db
 *.json
 *.log
+*.sh
