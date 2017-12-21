@@ -7,3 +7,4 @@ assistant/nohup.out
 *.wav
 *.db
 *.json
+*.log
