@@ -121,7 +121,7 @@ def storeScene(extra):
     except:
         #create new scene
         scene.Scene.create(extra)
-commandList.append(Command(storeScene, ["store"]))
+commandList.append(Command(storeScene, ["store", "save"]))
 
 def deleteScene(extra):
     s = scene.Scene(extra)

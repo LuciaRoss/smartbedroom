@@ -111,8 +111,13 @@ elif isnight(hour) and lightson() and temp >= normal.lower and radiator.is_on:
     radiator.turn_off()
     state = "TURNED OFF -> NIGHT lights on"
 
-if state != "NOT SET":
+try:
+    cur.execute('''CREATE TABLE IF NOT EXISTS heaterstatus (seconds int, date text, temp real, status text, lights text,
+     desc text)''')
     cur.execute('''INSERT INTO heaterstatus VALUES (?, ?, ?, ?, ?, ?)''', (int(time()), datetime.now().strftime("%Y-%m-%d %H:%M:%S"), temp, str(on_data), str(lightson()), state))
+except:
+    print sys.exc_info()[0]
+    pass
 
 conn.commit()
 conn.close()

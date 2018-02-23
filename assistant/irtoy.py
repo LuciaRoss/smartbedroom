@@ -93,7 +93,7 @@ class IrToy(object):
         for idx in range(0, len(code), maxWriteSize):
             segmentWritten = self.toy.write(byteCode[idx:idx+maxWriteSize])
             bytesWritten += segmentWritten
-
+            print("{0} bytes written".format(bytesWritten))
             if check_handshake:
                 self.handshake = ord(self.toy.read(1))
 
@@ -115,7 +115,7 @@ class IrToy(object):
         self._writeList([0x24]) #Enable transmit byte count report
         self._writeList([0x03], check_handshake=True) #Expect to receive packets to transmit
         self.transmitMode = True
-
+        print("transimit mode {0}".format(self.transmitMode))
     def receive(self):
         '''Read a signal from the toy, returns a list of IR Codes converted from hex to ints.  See
         http://dangerousprototypes.com/docs/USB_IR_Toy:_Sampling_mode for more information on the
