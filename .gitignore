@@ -9,3 +9,4 @@ assistant/nohup.out
 *.json
 *.log
 *.sh
+*.txt
